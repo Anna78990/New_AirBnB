@@ -1,0 +1,35 @@
+{
+    "User.1234-5678-9012": {
+        "id": "1234-5678-9012",
+        "created_at": "2024-06-11T12:00:00",
+        "updated_at": "2024-06-11T12:00:00",
+        "__class__": "User",
+        "name": "John Doe",
+        "email": "johndoe@example.com"
+    },
+    "Place.0987-6543-2109": {
+        "id": "0987-6543-2109",
+        "created_at": "2024-06-11T12:00:00",
+        "updated_at": "2024-06-11T12:00:00",
+        "__class__": "Place",
+        "name": "Beautiful House",
+        "city_id": "1234",
+        "user_id": "5678",
+        "description": "A nice place to stay",
+        "number_rooms": 3,
+        "number_bathrooms": 2,
+        "max_guest": 5,
+        "price_by_night": 100,
+        "latitude": 37.7749,
+        "longitude": -122.4194
+    },
+    "City.1234": {
+        "id": "1234",
+        "created_at": "2024-06-11T12:00:00",
+        "updated_at": "2024-06-11T12:00:00",
+        "__class__": "City",
+        "name": "San Francisco",
+        "state_id": "5678"
+    }
+}
+

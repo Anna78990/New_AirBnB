@@ -33,6 +33,7 @@ class Place(BaseModel, Base):
         price_by_night = Column(Integer, nullable=False, default=0)
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
+        image = Column(String(1024), nullable=True)
         reviews = relationship("Review",
                                backref="place",
                                cascade="all, delete, delete-orphan")
@@ -50,6 +51,7 @@ class Place(BaseModel, Base):
         price_by_night = 0
         latitude = 0.0
         longitude = 0.0
+        image = ""
         amenity_ids = []
 
     def __init__(self, *args, **kwargs):
