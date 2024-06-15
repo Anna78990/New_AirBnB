@@ -63,6 +63,7 @@
     padding: 2.3%;
 }
 
+
 .information {
     display: flex;
     justify-content: center;
@@ -79,6 +80,14 @@
     align-items: center;
     flex-direction: column;
     height: 65px;
+}
+
+.image_hotel {
+    width: 400px; /* 幅を指定 */
+    height: 250px; /* 高さを指定 */
+    background-size: cover; /* 画像をコンテナに合わせる */
+    background-position: center; /* 画像の中央を表示 */
+    background-repeat: no-repeat; /* 画像の繰り返しを無効 */
 }
 
 .information .max_guest {

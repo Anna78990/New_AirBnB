@@ -8,6 +8,8 @@ from models.place import Place
 from os import environ
 from flask import Flask, render_template
 from uuid import uuid4
+import ssl
+
 app = Flask(__name__)
 # app.jinja_env.trim_blocks = True
 # app.jinja_env.lstrip_blocks = True
@@ -44,4 +46,8 @@ def hbnb():
 
 if __name__ == "__main__":
     """ Main Function """
-    app.run(host='0.0.0.0', port=5000)
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+    context.load_cert_chain('cert.pem', 'key.pem')
+    context.check_hostname = False
+    context.verify_mode = ssl.CERT_NONE
+    app.run(host='0.0.0.0', port=5000, ssl_context=context)

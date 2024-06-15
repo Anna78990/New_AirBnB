@@ -10,16 +10,18 @@ $('document').ready(function () {
     }
     $('.amenities h4').text(Object.values(dicoa).join(', '));
   });
-  $.get('http://0.0.0.0:5001/api/v1/status/', function (data, status) {
+  $.get('https://127.0.0.1:5001/api/v1/status/', function (data, status) {
     if (data.status === 'OK') {
       $('#api_status').addClass('available');
     } else {
       $('#api_status').removeClass('available');
     }
+  }).fail(function(jqXHR, textStatus, errorThrown) {
+      console.error('Error fetching API status: ' + textStatus + ', ' + errorThrown);
   });
   $.ajax({
     type: 'POST',
-    url: 'http://0.0.0.0:5001/api/v1/places_search/',
+    url: 'https://127.0.0.1:5001/api/v1/places_search/',
     data: '{}',
     success: function (data) {
       for (let i = 0; i < data.length; i++) {
@@ -29,12 +31,15 @@ $('document').ready(function () {
 <h2>${data[i].name}</h2>
 <div class=price_by_night>$${data[i].price_by_night}</div>
 </div>
-<div class=information>
-<div class=max_guest>${data[i].max_guest} Guests</div>
-<div class=number_rooms>${data[i].number_rooms} Bedrooms</div>
-<div class=number_bathrooms>${data[i].number_bathrooms} Bathrooms</div>
+<div class="information">
+
+<div class="max_guest">${data[i].max_guest} Guests</div>
+<div class="number_rooms">${data[i].number_rooms} Bedrooms</div>
+<div class="number_bathrooms">${data[i].number_bathrooms} Bathrooms</div>
 </div>
-<div class=description>
+<div class="image_hotel" style="background-image: url('../../static/images/${data[i].image}')"></div>
+<!-- html file is in templates -->
+<div class="description">
 ${data[i].description}
 </div>
 <div class="reviews">
@@ -52,7 +57,7 @@ ${data[i].description}
     $('section.places').empty();
     $.ajax({
       type: 'POST',
-      url: 'http://0.0.0.0:5001/api/v1/places_search/',
+      url: 'https://127.0.0.1:5001/api/v1/places_search/',
       data: JSON.stringify({ amenities: Object.keys(dicoa), states: Object.keys(dicos), cities: Object.keys(dicoc) }),
       success: function (data) {
         for (let i = 0; i < data.length; i++) {
@@ -67,6 +72,7 @@ ${data[i].description}
 <div class=number_rooms>${data[i].number_rooms} Bedrooms</div>
 <div class=number_bathrooms>${data[i].number_bathrooms} Bathrooms</div>
 </div>
+<div class="image_hotel" style="background-image: url('../../static/images/${data[i].image}')"></div>
 <div class=description>
 ${data[i].description}
 </div>
@@ -102,7 +108,7 @@ ${data[i].description}
   });
   $(document).on('click', '.reviews .showReview', function () {
     const placeid = $(this).attr('data-id');
-    $.get(`http://0.0.0.0:5001/api/v1/places/${placeid}/reviews`, function (data) {
+    $.get(`https://127.0.0.1:5001/api/v1/places/${placeid}/reviews`, function (data) {
       if ($(`.showReview[data-id=${placeid}]`).text() === 'show') {
         for (let i = 0; i < data.length; i++) {
           $(`ul[data-id=${placeid}]`).append(`<li>${data[i].text}</li>`);

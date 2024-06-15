@@ -10,7 +10,7 @@ $('document').ready(function () {
     }
     $('.amenities h4').text(Object.values(dicoa).join(', '));
   });
-  $.get('http://0.0.0.0:5001/api/v1/status/', function (data, status) {
+  $.get('https://127.0.0.1:5001/api/v1/status/', function (data, status) {
     if (data.status === 'OK') {
       $('#api_status').addClass('available');
     } else {
@@ -19,7 +19,7 @@ $('document').ready(function () {
   });
   $.ajax({
     type: 'POST',
-    url: 'http://0.0.0.0:5001/api/v1/places_search/',
+    url: 'https://127.0.0.1:5001/api/v1/places_search/',
     data: '{}',
     success: function (data) {
       for (let i = 0; i < data.length; i++) {
@@ -52,7 +52,7 @@ ${data[i].description}
     $('section.places').empty();
     $.ajax({
       type: 'POST',
-      url: 'http://0.0.0.0:5001/api/v1/places_search/',
+      url: 'https://127.0.0.1:5001/api/v1/places_search/',
       data: JSON.stringify({ amenities: Object.keys(dicoa), states: Object.keys(dicos), cities: Object.keys(dicoc) }),
       success: function (data) {
         for (let i = 0; i < data.length; i++) {
@@ -102,7 +102,7 @@ ${data[i].description}
   });
   $(document).on('click', '.reviews .showReview', function () {
     const placeid = $(this).attr('data-id');
-    $.get(`http://0.0.0.0:5001/api/v1/places/${placeid}/reviews`, function (data) {
+    $.get(`https://127.0.0.1:5001/api/v1/places/${placeid}/reviews`, function (data) {
       if ($(`.showReview[data-id=${placeid}]`).text() === 'show') {
         for (let i = 0; i < data.length; i++) {
           $(`ul[data-id=${placeid}]`).append(`<li>${data[i].text}</li>`);
