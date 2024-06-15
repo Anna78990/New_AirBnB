@@ -6,7 +6,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from os import environ
-from flask import Flask, render_template
+from flask import Flask, render_template, abort
 from uuid import uuid4
 import ssl
 
@@ -44,10 +44,19 @@ def hbnb():
                            cache_id=uuid4())
 
 
+@app.route('/places/<place_id>', strict_slashes=False)
+def place_detail(place_id):
+    """ Place detail page """
+    place = storage.get(Place, place_id)
+    if not place:
+        abort(404)
+    return render_template('place_detail.html', place=place, cache_id=uuid4())
+
+
 if __name__ == "__main__":
     """ Main Function """
     context = ssl.SSLContext(ssl.PROTOCOL_TLS)
     context.load_cert_chain('cert.pem', 'key.pem')
     context.check_hostname = False
     context.verify_mode = ssl.CERT_NONE
-    app.run(host='0.0.0.0', port=5000, ssl_context=context)
+    app.run(host='127.0.0.1', port=5000, ssl_context=context)
