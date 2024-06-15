@@ -1,0 +1,25 @@
+.image_hotel {
+    width: 400px;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    float: left; /* Ensure the image floats left */
+    margin-right: 20px; /* Adjust as needed for spacing */
+}
+.reservation-button {
+    margin-top: 20px;
+}
+
+.reservation-button button {
+    position: absolute; /* 必要に応じてpositionの指定 */
+    top: initial !important; /* topの初期値を使用 */
+    right: initial !important; /* rightの初期値を使用 */
+    /* 他のスタイルプロパティ */
+    padding: 10px 20px;
+    background-color: #FF5A5F;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}

@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="../static/styles/3-footer.css?{{ cache_id }}">
     <link rel="stylesheet" type="text/css" href="../static/styles/6-filters.css?{{ cache_id }}">
     <link type="text/css" rel="stylesheet" href="../static/styles/8-places.css?{{ cache_id }}">
+    <link type="text/css" rel="stylesheet" href="../static/styles/details.css?{{ cache_id }}">
     <link rel="icon" href="../static/images/icon.png" />
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../static/scripts/101-hbnb.js?{{ cache_id }}"></script>
@@ -20,17 +21,18 @@
 <body>
     <div class="container">
         <h1>{{ place.name }}</h1>
-        <div class="place-detail">
             <div class="image_hotel" style="background-image: url('../../static/images/{{ place.image }}')"></div>
-            <div class="information">
-                <p>{{ place.description }}</p>
-                <p><strong>Price per night:</strong> ${{ place.price_by_night }}</p>
-                <p><strong>Max guests:</strong> {{ place.max_guest }}</p>
-                <p><strong>Number of rooms:</strong> {{ place.number_rooms }}</p>
-                <p><strong>Number of bathrooms:</strong> {{ place.number_bathrooms }}</p>
-                <p><strong>Location:</strong> {{ place.city.name }}, {{ place.city.state.name }}</p>
+              <div class="place-detail">
+                <div>{{ place.description }}</div>
+                <div><strong>Price per night:</strong> ${{ place.price_by_night }}</div>
+                <div><strong>Max guests:</strong> {{ place.max_guest }}</div>
+                <div><strong>Number of rooms:</strong> {{ place.number_rooms }}</div>
+                <div><strong>Number of bathrooms:</strong> {{ place.number_bathrooms }}</div>
+                <div><strong>Location:</strong> {{ place.city.name }}, {{ place.city.state.name }}</div>
+                <div class="reservation-button">
+                  <button onclick="reserve()">Book Now</button>
+                </div>            
             </div>
-        </div>
     </div>
 </body>
 </html>
