@@ -49,7 +49,7 @@ def place_detail(place_id):
     """ Place detail page """
     place = storage.get(Place, place_id)
     if not place:
-        abort(404)
+        abort(404, description="Place not found")
     return render_template('place_detail.html', place=place, cache_id=uuid4())
 
 

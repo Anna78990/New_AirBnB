@@ -40,6 +40,8 @@ class Place(BaseModel, Base):
         amenities = relationship("Amenity",
                                  secondary=place_amenity,
                                  viewonly=False)
+        city = relationship("City", back_populates="places")
+
     else:
         city_id = ""
         user_id = ""
