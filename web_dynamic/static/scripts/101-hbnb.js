@@ -26,7 +26,7 @@ $('document').ready(function () {
     success: function (data) {
       for (let i = 0; i < data.length; i++) {
         $('section.places').append(`
-<article>
+<article data-url="https://www.google.com">
 <div class=title_box>
 <h2>${data[i].name}</h2>
 <div class=price_by_night>$${data[i].price_by_night}</div>
@@ -62,7 +62,7 @@ ${data[i].description}
       success: function (data) {
         for (let i = 0; i < data.length; i++) {
           $('section.places').append(`
-<article>
+<article data-url="https://www.google.com">
 <div class=title_box>
 <h2>${data[i].name}</h2>
 <div class=price_by_night>$${data[i].price_by_night}</div>
@@ -119,5 +119,14 @@ ${data[i].description}
         $(`.showReview[data-id=${placeid}]`).text('show');
       }
     });
+  });
+
+
+  // 新しいイベントリスナーを追加 articleタグからページを遷移
+  $(document).on('click', 'article', function () {
+    const url = $(this).data('url');
+    if (url) {
+      window.location.href = url;
+    }
   });
 });
