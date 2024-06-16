@@ -2,3 +2,5 @@ server.crt
 server.key
 server.pub
 note
+cert.pem
+key.pem
