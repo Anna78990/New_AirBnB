@@ -115,7 +115,6 @@ def login():
             session['user_id'] = user.id
             return redirect(url_for('hbnb'))
         else:
-            return redirect('https://www.youtube.com/')
             return render_template('login.html', error='Invalid email or password')
     return render_template('login.html')
 
@@ -153,6 +152,13 @@ def create_user():
     storage.new(new_user)
     storage.save()
     return jsonify(new_user.to_dict()), 201
+
+@app.route('/check_login_status')
+def check_login_status():
+    if 'user_id' in session:
+        return jsonify({'logged_in': True})
+    else:
+        return jsonify({'logged_in': False})
 
 
 if __name__ == "__main__":

@@ -9,7 +9,29 @@
     <link type="text/css" rel="stylesheet" href="../static/styles/8-places.css?{{ cache_id }}">
     <link type="text/css" rel="stylesheet" href="../static/styles/details.css?{{ cache_id }}">
     <link rel="icon" href="../static/images/icon.png" />
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#book-now-btn').click(function() {
+                $.ajax({
+                    url: '/check_login_status',  // ログイン状態をチェックするエンドポイント
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.logged_in) {
+                            window.location.href = '/book_now';  // ログインしている場合のリダイレクト先
+                        } else {
+                            window.location.href = '/login';  // ログインしていない場合のリダイレクト先
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error checking login status:', error);
+                        // ログインチェックに失敗した場合の処理を追加することも可能
+                    }
+                });
+            });
+        });
+    </script>
     <script type="text/javascript" src="../static/scripts/101-hbnb.js?{{ cache_id }}"></script>
     <title>{{ place.name }}</title>
   </head>
@@ -30,7 +52,7 @@
                 <div><strong>Number of bathrooms:</strong> {{ place.number_bathrooms }}</div>
                 <div><strong>Location:</strong> {{ place.city.name }}, {{ place.city.state.name }}</div>
                 <div class="reservation-button">
-                  <button  onclick="window.location.href='/login'">Book Now</button>
+                  <button id="book-now-btn">Book Now</button>
                 </div>            
             </div>
     </div>
