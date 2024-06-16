@@ -107,3 +107,22 @@ class DBStorage:
             count = len(models.storage.all(cls).values())
 
         return count
+
+    def get_by_attribute(self, cls, **kwargs):
+        """
+        Returns the object based on the class name and attribute, or
+        None if not found.
+        Accepts key-value pairs as attributes to filter by.
+        """
+        if cls not in classes.values():
+            print("none")
+            return None
+
+        result = self.__session.query(cls).filter_by(**kwargs).first()
+
+        if result:
+            print(f"Found {cls.__name__}: {result}")
+        else:
+            print(f"No {cls.__name__} found with attributes: {kwargs}")
+
+        return result
