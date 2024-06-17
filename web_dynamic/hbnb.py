@@ -109,7 +109,7 @@ def login():
         password = request.form['password']
 
         user = storage.get_by_attribute(User, email=email)
-        print(f'pass input: {password}, pass db: {user.password}')
+        # print(f'pass input: {password}, pass db: {user.password}')
 
         if user and bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
             session['user_id'] = user.id
