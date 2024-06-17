@@ -120,9 +120,9 @@ class DBStorage:
 
         result = self.__session.query(cls).filter_by(**kwargs).first()
 
-        if result:
-            print(f"Found {cls.__name__}: {result}")
-        else:
-            print(f"No {cls.__name__} found with attributes: {kwargs}")
+        # if result:
+        #    print(f"Found {cls.__name__}: {result}")
+        # else:
+        #    print(f"No {cls.__name__} found with attributes: {kwargs}")
 
         return result

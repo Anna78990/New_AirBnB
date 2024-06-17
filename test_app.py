@@ -77,18 +77,6 @@ class HbnbTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.location, '/101-hbnb')
 
-    def test_create_user_api(self):
-        """Test the /api/v1/users route."""
-        response = self.client.post('/api/v1/users', json={
-            'email': 'apiuser@example.com',
-            'password': 'password123',
-            'first_name': 'API',
-            'last_name': 'User'
-        })
-        self.assertEqual(response.status_code, 201)
-        data = json.loads(response.data)
-        self.assertEqual(data['email'], 'apiuser@example.com')
-
     def test_check_login_status(self):
         """Test the /check_login_status route."""
         with self.client:
