@@ -37,7 +37,7 @@ $('document').ready(function () {
 <div class="number_rooms">${data[i].number_rooms} Bedrooms</div>
 <div class="number_bathrooms">${data[i].number_bathrooms} Bathrooms</div>
 </div>
-<div class="image_hotel" style="background-image: url('../../static/images/${data[i].image}')"></div>
+<div class="image_hotel" style="background-image: url('../../static/images/${data[i].image}')" aria-label="image of ${data[i].name}"></div>
 <!-- html file is in templates -->
 <div class="description">
 ${data[i].description}

@@ -43,7 +43,7 @@
 <body>
     <div class="container">
         <h1>{{ place.name }}</h1>
-            <div class="image_hotel" style="background-image: url('../../static/images/{{ place.image }}')"></div>
+            <div class="image_hotel" style="background-image: url('../../static/images/{{ place.image }}')" aria-label="image of {{ place.name }}"></div>
               <div class="place-detail">
                 <div>{{ place.description }}</div>
                 <div><strong>Price per night:</strong> ${{ place.price_by_night }}</div>
