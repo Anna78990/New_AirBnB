@@ -8,6 +8,7 @@ from models.place import Place
 from models.user import User
 from os import environ, getenv
 from flask import Flask, render_template, abort, request, jsonify, session, redirect, url_for
+from flask_babel import Babel, gettext as _
 from uuid import uuid4
 import ssl
 from hashlib import md5
@@ -17,6 +18,12 @@ import bcrypt
 
 
 app = Flask(__name__)
+app.config['BABEL_DEFAULT_LOCALE'] = 'en'
+# app.config['BABEL_SUPPORTED_LOCALES'] = ['en', 'fr']
+
+# app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
+babel = Babel(app)
+# babel = Babel(app, locale_selector=get_locale, timezone_selector=get_timezone)
 
 type_s = getenv('HBNB_TYPE_STORAGE')
 
@@ -37,6 +44,11 @@ if type_s == "db":
 # app.jinja_env.trim_blocks = True
 # app.jinja_env.lstrip_blocks = True
 app.secret_key = os.urandom(24)
+
+# @babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(['en', 'es', 'fr'])
+    # return request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES'])
 
 @app.teardown_appcontext
 def close_db(error):

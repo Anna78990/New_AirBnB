@@ -20,7 +20,7 @@
     <div class="container">
       <section class="filters">
 	<div class="locations">
-	  <h3>States</h3>
+	  <h3>{{ _('States') }}</h3>
 	  <h4>&nbsp;</h4>
 	  <div class="popover">
 	    <ul>
@@ -38,19 +38,19 @@
 	  </div>
 	</div>
 	<div class="amenities">
-	  <h3>Amenities</h3>
+	  <h3>{{ _('Amenities') }}</h3>
 	  <h4>&nbsp;</h4>
 	  <div class="popover">
 	    <ul>
 	      {% for amenity in amenities %}
-	      <li><input type="checkbox" data-id="{{ amenity.id }}" data-name="{{ amenity.name }}">{{ amenity.name }}</li>
+	      <li><input type="checkbox" data-id="{{ amenity.id }}" data-name="{{ amenity.name }}">{{ _(amenity.name) }}</li>
 	      {% endfor %}
 	    </ul>
 	  </div>
 	</div>
-	<button type="button">Search</button>
+	<button type="button">{{ _('Search') }}</button>
       </section>
-      <div class="placesh1"><h1>Places</h1></div>
+      <div class="placesh1"><h1>{{ _('Places') }}</h1></div>
       <section class="places">
       </section>
     </div>
