@@ -46,11 +46,11 @@
             <div class="image_hotel" style="background-image: url('../../static/images/{{ place.image }}')" aria-label="image of {{ place.name }}"></div>
               <div class="place-detail">
                 <div>{{ place.description }}</div>
-                <div><strong>Price per night:</strong> ${{ place.price_by_night }}</div>
-                <div><strong>Max guests:</strong> {{ place.max_guest }}</div>
-                <div><strong>Number of rooms:</strong> {{ place.number_rooms }}</div>
-                <div><strong>Number of bathrooms:</strong> {{ place.number_bathrooms }}</div>
-                <div><strong>Location:</strong> {{ place.city.name }}, {{ place.city.state.name }}</div>
+                <div><strong>{{ _('Price per night:') }}</strong> ${{ place.price_by_night }}</div>
+                <div><strong>{{ _('Max guests:') }}</strong> {{ place.max_guest }}</div>
+                <div><strong>{{ _('Number of rooms:') }}</strong> {{ place.number_rooms }}</div>
+                <div><strong>{{ _('Number of bathrooms:') }}</strong> {{ place.number_bathrooms }}</div>
+                <div><strong>{{ _('Location:') }}</strong> {{ place.city.name }}, {{ place.city.state.name }}</div>
                 <div class="reservation-button">
                   <button id="book-now-btn">Book Now</button>
                 </div>            

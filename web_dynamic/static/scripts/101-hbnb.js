@@ -2,6 +2,7 @@ $('document').ready(function () {
   const dicoa = {};
   const dicos = {};
   const dicoc = {};
+
   $('.amenities input[type="checkbox"]').change(function () {
     if (this.checked === true) {
       dicoa[$(this).attr('data-id')] = $(this).attr('data-name');
@@ -10,6 +11,7 @@ $('document').ready(function () {
     }
     $('.amenities h4').text(Object.values(dicoa).join(', '));
   });
+
   $.get('https://127.0.0.1:5001/api/v1/status/', function (data, status) {
     if (data.status === 'OK') {
       $('#api_status').addClass('available');
@@ -17,42 +19,40 @@ $('document').ready(function () {
       $('#api_status').removeClass('available');
     }
   }).fail(function(jqXHR, textStatus, errorThrown) {
-      console.error('Error fetching API status: ' + textStatus + ', ' + errorThrown);
+    console.error('Error fetching API status: ' + textStatus + ', ' + errorThrown);
   });
+
   $.ajax({
     type: 'POST',
     url: 'https://127.0.0.1:5001/api/v1/places_search/',
     data: '{}',
     success: function (data) {
       for (let i = 0; i < data.length; i++) {
-        $('section.places').append(`
-<article data-id="${data[i].id}">
-<div class=title_box>
-<h2>${data[i].name}</h2>
-<div class=price_by_night>$${data[i].price_by_night}</div>
-</div>
-<div class="information">
-
-<div class="max_guest">${data[i].max_guest} Guests</div>
-<div class="number_rooms">${data[i].number_rooms} Bedrooms</div>
-<div class="number_bathrooms">${data[i].number_bathrooms} Bathrooms</div>
-</div>
-<div class="image_hotel" style="background-image: url('../../static/images/${data[i].image}')" aria-label="image of ${data[i].name}"></div>
-<!-- html file is in templates -->
-<div class="description">
-${data[i].description}
-</div>
-<div class="reviews">
-<h2>Reviews <span class="showReview" data-id=${data[i].id}>show</span></h2>
-<ul data-id=${data[i].id}>
-</ul>
-</div>
-</article>
-`);
+        const article = `
+          <article data-id="${data[i].id}">
+            <div class="title_box">
+              <h2>${data[i].name}</h2>
+              <div class="price_by_night">$${data[i].price_by_night}</div>
+            </div>
+            <div class="information">
+              <div class="max_guest">${data[i].max_guest} Guests</div>
+              <div class="number_rooms">${data[i].number_rooms} Bedrooms</div>
+              <div class="number_bathrooms">${data[i].number_bathrooms} Bathrooms</div>
+            </div>
+            <div class="image_hotel" style="background-image: url('../../static/images/${data[i].image}')" aria-label="image of ${data[i].name}"></div>
+            <div class="description">${data[i].description}</div>
+            <div class="reviews">
+              <h2>Reviews　<span class="showReview" data-id="${data[i].id}">show</span></h2>
+              <ul data-id="${data[i].id}"></ul>
+            </div>
+          </article>
+        `;
+        $('section.places').append(article);
       }
     },
     contentType: 'application/json'
   });
+
   $('button').click(function () {
     $('section.places').empty();
     $.ajax({
@@ -61,33 +61,32 @@ ${data[i].description}
       data: JSON.stringify({ amenities: Object.keys(dicoa), states: Object.keys(dicos), cities: Object.keys(dicoc) }),
       success: function (data) {
         for (let i = 0; i < data.length; i++) {
-          $('section.places').append(`
-<article data-id="${data[i].id}">
-<div class=title_box>
-<h2>${data[i].name}</h2>
-<div class=price_by_night>$${data[i].price_by_night}</div>
-</div>
-<div class=information>
-<div class=max_guest>${data[i].max_guest} Guests</div>
-<div class=number_rooms>${data[i].number_rooms} Bedrooms</div>
-<div class=number_bathrooms>${data[i].number_bathrooms} Bathrooms</div>
-</div>
-<div class="image_hotel" style="background-image: url('../../static/images/${data[i].image}')"></div>
-<div class=description>
-${data[i].description}
-</div>
-<div class="reviews">
-<h2>Reviews <span class="showReview" data-id=${data[i].id}>show</span></h2>
-<ul data-id=${data[i].id}>
-</ul>
-</div>
-</article>
-`);
+          const article = `
+            <article data-id="${data[i].id}">
+              <div class="title_box">
+                <h2>${data[i].name}</h2>
+                <div class="price_by_night">$${data[i].price_by_night}</div>
+              </div>
+              <div class="information">
+                <div class="max_guest">${data[i].max_guest} Guests</div>
+                <div class="number_rooms">${data[i].number_rooms} Bedrooms</div>
+                <div class="number_bathrooms">${data[i].number_bathrooms} Bathrooms</div>
+              </div>
+              <div class="image_hotel" style="background-image: url('../../static/images/${data[i].image}')"></div>
+              <div class="description">${data[i].description}</div>
+              <div class="reviews">
+                <h2>Reviews <span class="showReview" data-id="${data[i].id}">show</span></h2>
+                <ul data-id="${data[i].id}"></ul>
+              </div>
+            </article>
+          `;
+          $('section.places').append(article);
         }
       },
       contentType: 'application/json'
     });
   });
+
   $('input[type="checkbox"].stateinput').change(function () {
     if (this.checked === true) {
       dicos[$(this).attr('data-id')] = $(this).attr('data-name');
@@ -97,6 +96,7 @@ ${data[i].description}
     $('.locations h4').empty();
     $('.locations h4').text(Object.values(dicos).join(', '));
   });
+
   $('input[type="checkbox"].cityinput').change(function () {
     if (this.checked === true) {
       dicoc[$(this).attr('data-id')] = $(this).attr('data-name');
@@ -106,26 +106,31 @@ ${data[i].description}
     $('.locations h4').empty();
     $('.locations h4').text(Object.values(dicoc).join(', '));
   });
+
   $(document).on('click', '.reviews .showReview', function () {
     const placeid = $(this).attr('data-id');
+    const showReviewElement = $(this);
+    
     $.get(`https://127.0.0.1:5001/api/v1/places/${placeid}/reviews`, function (data) {
-      if ($(`.showReview[data-id=${placeid}]`).text() === 'show') {
+      const ulElement = $(`ul[data-id="${placeid}"]`);
+      
+      if (showReviewElement.text() === 'show') {
+        ulElement.empty();
         for (let i = 0; i < data.length; i++) {
-          $(`ul[data-id=${placeid}]`).append(`<li>${data[i].text}</li>`);
+          ulElement.append(`<li>${data[i].text}</li>`);
         }
-        $(`.showReview[data-id=${placeid}]`).text('hide');
+        showReviewElement.text('hide');
       } else {
-        $(`.reviews ul[data-id=${placeid}]`).empty();
-        $(`.showReview[data-id=${placeid}]`).text('show');
+        ulElement.empty();
+        showReviewElement.text('show');
       }
     });
   });
 
-
   $(document).on('click', 'article', function () {
     const placeId = $(this).attr('data-id');
     if (placeId) {
-        window.location.href = `/places/${placeId}`;
+      window.location.href = `/places/${placeId}`;
     }
   });
 

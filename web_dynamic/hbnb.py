@@ -19,11 +19,10 @@ import bcrypt
 
 app = Flask(__name__)
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
-# app.config['BABEL_SUPPORTED_LOCALES'] = ['en', 'fr']
+app.config['BABEL_SUPPORTED_LOCALES'] = ['en', 'fr']
 
-# app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
-babel = Babel(app)
-# babel = Babel(app, locale_selector=get_locale, timezone_selector=get_timezone)
+app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
+
 
 type_s = getenv('HBNB_TYPE_STORAGE')
 
@@ -45,10 +44,13 @@ if type_s == "db":
 # app.jinja_env.lstrip_blocks = True
 app.secret_key = os.urandom(24)
 
-# @babel.localeselector
 def get_locale():
-    return request.accept_languages.best_match(['en', 'es', 'fr'])
-    # return request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES'])
+    best_match = request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES'])
+    print(f"Locale selected: {best_match}")  # デバッグ用の出力
+    return best_match
+    #return request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES'])
+
+babel = Babel(app, locale_selector=get_locale)
 
 @app.teardown_appcontext
 def close_db(error):

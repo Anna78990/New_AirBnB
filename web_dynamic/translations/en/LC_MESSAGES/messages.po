@@ -28,6 +28,9 @@ msgstr "Commodité"
 msgid "Search"
 msgstr "Recherche"
 
+msgid "Places"
+msgstr "Hébergement"
+
 msgid "Cozy Apartment"
 msgstr "Appartement Confortable"
 
@@ -42,3 +45,19 @@ msgstr "Brosse à dents"
 
 msgid "bathtub"
 msgstr "baignoire"
+
+msgid "Price per night:"
+msgstr "Prix par nuit:"
+
+msgid "Max guests:"
+msgstr "Nombre maximal d'invités:"
+
+msgid "Number of rooms:"
+msgstr "Nombre de chambres:"
+
+msgid "Number of bathrooms:"
+msgstr "Nombre de salles de bains:"
+
+msgid "Location:"
+msgstr "Localisation:"
+
