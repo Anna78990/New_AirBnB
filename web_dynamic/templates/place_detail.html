@@ -19,7 +19,7 @@
                     dataType: 'json',
                     success: function(data) {
                         if (data.logged_in) {
-                            window.location.href = '/book_now';  // ログインしている場合のリダイレクト先
+                          window.location.href = '/book_now/{{ place.id }}';
                         } else {
                             window.location.href = '/login';  // ログインしていない場合のリダイレクト先
                         }

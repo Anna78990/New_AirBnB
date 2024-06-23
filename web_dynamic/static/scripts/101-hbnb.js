@@ -133,5 +133,24 @@ $('document').ready(function () {
       window.location.href = `/places/${placeId}`;
     }
   });
-
+  $(document).on('click', '#api_status', function () {
+    $('#api_status').click(function() {
+        $.ajax({
+            url: '/check_login_status',  // ログイン状態をチェックするエンドポイント
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                if (data.logged_in) {
+                  window.location.href = `/user/${data.user_id}`;
+                } else {
+                    window.location.href = '/login';  // ログインしていない場合のリダイレクト先
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error checking login status:', error);
+                // ログインチェックに失敗した場合の処理を追加することも可能
+            }
+        });
+    });
+  });
 });

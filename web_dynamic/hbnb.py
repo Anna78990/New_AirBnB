@@ -5,6 +5,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.place import Place
+from models.reservation import Reservation
 from models.user import User
 from os import environ, getenv
 from flask import Flask, render_template, abort, request, jsonify, session, redirect, url_for
@@ -15,6 +16,7 @@ from hashlib import md5
 import re
 import os
 import bcrypt
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -140,6 +142,46 @@ def validate_email(email):
 def validate_password(password):
     return len(password) >= 6
 
+@app.route('/book_now/<place_id>', methods=['GET', 'POST'])
+def book_now(place_id):
+    """Book now page"""
+    place = storage.get(Place, place_id)
+    if not place:
+        abort(404, description="Place not found")
+    
+    if request.method == 'POST':
+        if 'user_id' not in session:
+            return redirect(url_for('login'))
+
+        user_id = session['user_id']
+        start_date = request.form['start_date']
+        end_date = request.form['end_date']
+        
+        try:
+            start_date = datetime.strptime(start_date, "%Y-%m-%d")
+            end_date = datetime.strptime(end_date, "%Y-%m-%d")
+        except ValueError:
+            return render_template('book_now.html', place=place, error='Invalid date format')
+
+        new_reservation = Reservation(user_id=user_id, place_id=place_id, start_date=start_date, end_date=end_date)
+        storage.new(new_reservation)
+        storage.save()
+
+        return redirect(url_for('place_detail', place_id=place_id))
+
+    return render_template('book_now.html', place=place)
+
+@app.route('/user/<user_id>', strict_slashes=False)
+def user_page(user_id):
+    """User page showing all reservations"""
+    user = storage.get(User, user_id)
+    if not user:
+        abort(404, description="User not found")
+    
+    reservations = user.reservations
+    return render_template('user_page.html', user=user, reservations=reservations, cache_id=uuid4())
+
+
 @app.route('/api/v1/users', methods=['POST'])
 def create_user():
     data = request.get_json()
@@ -170,7 +212,8 @@ def create_user():
 @app.route('/check_login_status')
 def check_login_status():
     if 'user_id' in session:
-        return jsonify({'logged_in': True})
+        user_id = session['user_id']
+        return jsonify({'logged_in': True, 'user_id': user_id})
     else:
         return jsonify({'logged_in': False})
 
