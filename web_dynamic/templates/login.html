@@ -1,23 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
+    <link rel="stylesheet" type="text/css" href="../static/styles/4-common.css?{{ cache_id }}">
+    <link rel="stylesheet" type="text/css" href="../static/styles/3-header.css?{{ cache_id }}">
+    <link rel="stylesheet" type="text/css" href="../static/styles/3-footer.css?{{ cache_id }}">
+
+    <link type="text/css" rel="stylesheet" href="../static/styles/8-places.css?{{ cache_id }}">
+    <link type="text/css" rel="stylesheet" href="../static/styles/form.css?{{ cache_id }}">
+    <link rel="icon" href="../static/images/icon.png" />
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../static/scripts/101-hbnb.js?{{ cache_id }}"></script>
+    <title>HBnB</title>
+  </head>
+  <body>
+    <header>
+      <div class="logo"></div>
+	  <div id="api_status"></div>
+    </header>
+    <div class="container">
     <h1>Login</h1>
+
     <form method="post">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <button type="submit">Login</button>
-    </form>
+    <input type="email" placeholder="email" id="email" name="email" required>
+    <input type="password" placeholder="password" id="password" name="password" required>
+    
+
+    <label for="submit">
     <p>Don't have an account? <a href="{{ url_for('user_registration') }}">Register here</a></p>
+    </label>
+    <input type="submit" id="btn_submit" value="Login">
+    </form>
     {% if error %}
     <p style="color: red;">{{ error }}</p>
     {% endif %}
+    </div>
+    <footer>
+        <p>Holberton School</p>
+      </footer>
 </body>
 </html>
