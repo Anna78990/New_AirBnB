@@ -19,18 +19,8 @@
 	  <div id="api_status"></div>
     </header>
     <div class="container">
-    <h1>Register</h1>
-    <form method="post">
-        <input type="first_name" placeholder="first_name" id="first_name" name="first_name" required>
-        <input type="last_name" placeholder="last_name" id="last_name" name="last_name" required>
-        <input type="email" placeholder="email" id="email" name="email" required>
-        <input type="password" placeholder="password" id="password" name="password" required>
-        <input type="submit" id="btn_submit" value="Register">
-    </form>
-    {% if error %}
-    <p style="color: red;">{{ error }}</p>
-    {% endif %}
-    </div>
+    <h1>Thank you for your reservation!!</h1>
+    <p><a href="{{ url_for('hbnb') }}">> Home</a></p>
     <footer>
         <p>Holberton School</p>
       </footer>

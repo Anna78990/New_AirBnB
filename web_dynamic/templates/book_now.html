@@ -7,8 +7,9 @@
     <link rel="stylesheet" type="text/css" href="../static/styles/3-footer.css?{{ cache_id }}">
     <link rel="stylesheet" type="text/css" href="../static/styles/details.css?{{ cache_id }}">
     <link rel="icon" href="../static/images/icon.png" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Book Now</title>
-  </head>
+</head>
   <body>
     <header>
       <div class="logo"></div>
@@ -30,7 +31,7 @@
             <input type="date" id="end_date" name="end_date" required>
           </div>
           <div>
-            <button type="submit">{{ _('Reserve') }}</button>
+            <button id="reserveButton" type="submit">{{ _('Reserve') }}</button>
           </div>
         </form>
         {% if error %}

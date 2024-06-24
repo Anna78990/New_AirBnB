@@ -167,7 +167,7 @@ def book_now(place_id):
         storage.new(new_reservation)
         storage.save()
 
-        return redirect(url_for('place_detail', place_id=place_id))
+        return redirect(url_for('thankyou'))
 
     return render_template('book_now.html', place=place)
 
@@ -217,6 +217,9 @@ def check_login_status():
     else:
         return jsonify({'logged_in': False})
 
+@app.route('/reservation_completed')
+def thankyou():
+    return render_template('reserve_completed.html')
 
 if __name__ == "__main__":
     """ Main Function """
