@@ -100,8 +100,9 @@ def user_registration():
         first_name = request.form['first_name']
         last_name = request.form['last_name']
 
-        if not validate_email(email):
-            return render_template('register.html', error='Invalid email format')
+        is_valid, message = validate_email(email, storage)
+        if not is_valid:
+            return render_template('register.html', error=message)
         if not validate_password(password):
             return render_template('register.html', error='Password must be at least 6 characters long')
 
@@ -134,13 +135,19 @@ def login():
             return render_template('login.html', error='Invalid email or password')
     return render_template('login.html')
 
-
-def validate_email(email):
+def validate_email(email, storage):
     email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    return re.match(email_regex, email) is not None
+    if re.match(email_regex, email) is None:
+        return False, "Invalid email format"
+
+    existing_user = storage.get_by_attribute(User, email=email)
+    if existing_user is not None:
+        return False, "Email is already registered"
+
+    return True, "Email is valid"
 
 def validate_password(password):
-    return len(password) >= 6
+    return 6 <= len(password) <= 18
 
 @app.route('/book_now/<place_id>', methods=['GET', 'POST'])
 def book_now(place_id):
@@ -181,33 +188,6 @@ def user_page(user_id):
     reservations = user.reservations
     return render_template('user_page.html', user=user, reservations=reservations, cache_id=uuid4())
 
-
-@app.route('/api/v1/users', methods=['POST'])
-def create_user():
-    data = request.get_json()
-    if not data:
-        return jsonify({'error': 'Not a JSON'}), 400
-    if 'email' not in data:
-        return jsonify({'error': 'Missing email'}), 400
-    if 'password' not in data:
-        return jsonify({'error': 'Missing password'}), 400
-
-    email = data['email']
-    password = data['password']
-    first_name = data.get('first_name', "")
-    last_name = data.get('last_name', "")
-
-    if not validate_email(email):
-        return jsonify({'error': 'Invalid email format'}), 400
-    if not validate_password(password):
-        return jsonify({'error': 'Password must be at least 6 characters long'}), 400
-
-    password_hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-
-    new_user = User(email=email, password=password_hashed, first_name=first_name, last_name=last_name)
-    storage.new(new_user)
-    storage.save()
-    return jsonify(new_user.to_dict()), 201
 
 @app.route('/check_login_status')
 def check_login_status():
