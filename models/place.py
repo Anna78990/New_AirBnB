@@ -2,6 +2,7 @@
 """ holds class Place"""
 import models
 from models.base_model import BaseModel, Base
+from models.reservation import Reservation
 from os import getenv
 import sqlalchemy
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
@@ -41,6 +42,8 @@ class Place(BaseModel, Base):
                                  secondary=place_amenity,
                                  viewonly=False)
         city = relationship("City", back_populates="places")
+        reservations = relationship("Reservation", back_populates="place", cascade="all, delete, delete-orphan")
+
 
     else:
         city_id = ""
@@ -82,3 +85,4 @@ class Place(BaseModel, Base):
                 if amenity.place_id == self.id:
                     amenity_list.append(amenity)
             return amenity_list
+

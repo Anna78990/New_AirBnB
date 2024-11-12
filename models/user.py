@@ -8,6 +8,7 @@ import sqlalchemy
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from hashlib import md5
+from models.reservation import Reservation
 
 
 class User(BaseModel, Base):
@@ -20,11 +21,13 @@ class User(BaseModel, Base):
         last_name = Column(String(128), nullable=True)
         places = relationship("Place", backref="user")
         reviews = relationship("Review", backref="user")
+        reservations = relationship("Reservation", back_populates="user", cascade="all, delete, delete-orphan")
     else:
         email = ""
         password = ""
         first_name = ""
         last_name = ""
+        reservations = []
 
     def __init__(self, *args, **kwargs):
         """initializes user"""
