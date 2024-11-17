@@ -1,4 +1,4 @@
-dname: Run tests
+name: Run tests
 
 on: [push, pull_request]
 
