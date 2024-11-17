@@ -43,6 +43,7 @@ jobs:
 
     - name: Install pyjnius
       run: |
+        python -c "import Cython"
         pip install --no-cache-dir pyjnius==1.6.0
 
     - name: Install remaining dependencies
