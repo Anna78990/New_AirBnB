@@ -128,7 +128,8 @@ def login():
         user = storage.get_by_attribute(User, email=email)
         # print(f'pass input: {password}, pass db: {user.password}')
 
-        if user and bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+        if user and bcrypt.checkpw(password.encode('utf-8'), user.password
+                                   if isinstance(user.password, bytes) else user.password.encode('utf-8')):
             session['user_id'] = user.id
             return redirect(url_for('hbnb'))
         else:
@@ -208,3 +209,4 @@ if __name__ == "__main__":
     context.check_hostname = False
     context.verify_mode = ssl.CERT_NONE
     app.run(host='127.0.0.1', port=5000, ssl_context=context, debug=True)
+    app.run(host='127.0.0.1', port=5000)

@@ -1,9 +1,20 @@
-# version: '3'
+version: "3"
 
 services:
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile  # apiディレクトリ内のDockerfileを指定
+    volumes:
+      - .:/New_AirBnB
+    ports:
+      - "5001:5001"
+    networks:
+      - hbnb-network
+
   web_dynamic:
     build:
-      context: .  # 親ディレクトリをビルドコンテキストに指定
+      context: .
       dockerfile: web_dynamic/Dockerfile
     environment:
       HBNB_MYSQL_USER: hbnb_dev
@@ -12,25 +23,10 @@ services:
       HBNB_MYSQL_DB: hbnb_dev_db
       HBNB_TYPE_STORAGE: db
     command: python3 -m web_dynamic.hbnb
+    volumes:
+      - .:/New_AirBnB
     ports:
       - "5000:5000"
-    networks:
-      - hbnb-network
-
-  api:
-    build:
-      context: .  # 親ディレクトリをビルドコンテキストに指定
-      dockerfile: api/Dockerfile
-    environment:
-      HBNB_MYSQL_USER: hbnb_dev
-      HBNB_MYSQL_PWD: hbnb_dev_pwd
-      HBNB_MYSQL_HOST: 127.0.0.1
-      HBNB_MYSQL_DB: hbnb_dev_db
-      HBNB_TYPE_STORAGE: db
-      HBNB_API_PORT: 5001
-    command: python3 -m api.v1.app
-    ports:
-      - "5001:5001"
     networks:
       - hbnb-network
 

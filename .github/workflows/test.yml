@@ -1,0 +1,66 @@
+name: Run tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.3.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: hbnb_dev_db
+          MYSQL_USER: hbnb_dev
+          MYSQL_PASSWORD: hbnb_dev_pwd
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Start API Server
+      run: |
+        HBNB_MYSQL_USER=hbnb_dev \
+        HBNB_MYSQL_PWD=hbnb_dev_pwd \
+        HBNB_MYSQL_HOST=127.0.0.1 \
+        HBNB_MYSQL_DB=hbnb_dev_db \
+        HBNB_TYPE_STORAGE=db \
+        HBNB_API_PORT=5001 \
+        nohup python3 -m api.v1.app &
+
+    - name: Start Web Server
+      run: |
+        HBNB_MYSQL_USER=hbnb_dev \
+        HBNB_MYSQL_PWD=hbnb_dev_pwd \
+        HBNB_MYSQL_HOST=127.0.0.1 \
+        HBNB_MYSQL_DB=hbnb_dev_db \
+        HBNB_TYPE_STORAGE=db \
+        nohup python3 -m web_dynamic.hbnb &
+
+    - name: Run Tests
+      env:
+        HBNB_MYSQL_USER: hbnb_dev
+        HBNB_MYSQL_PWD: hbnb_dev_pwd
+        HBNB_MYSQL_HOST: 127.0.0.1
+        HBNB_MYSQL_DB: hbnb_dev_db
+        HBNB_TYPE_STORAGE: db
+      run: |
+        sleep 10  # サーバが完全に立ち上がるまでの待機時間
+        python3 -m unittest discover -s tests

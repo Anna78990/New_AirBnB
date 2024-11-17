@@ -12,8 +12,7 @@ import ssl
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.register_blueprint(app_views)
-cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
-
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "https://127.0.0.1:5000"}})
 
 @app.teardown_appcontext
 def close_db(error):
@@ -52,3 +51,4 @@ if __name__ == "__main__":
     context.check_hostname = False
     context.verify_mode = ssl.CERT_NONE
     app.run(host=host, port=port, threaded=True, ssl_context=context)
+    app.run(host=host, port=port, threaded=True)
