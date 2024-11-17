@@ -30,11 +30,23 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Install dependencies with Cython and pyjnius
+    - name: Install JDK
       run: |
-        python -m pip install --upgrade pip
+        sudo apt update
+        sudo apt install -y openjdk-11-jdk
+        echo "JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))" >> $GITHUB_ENV
+
+    - name: Install Cython and setuptools
+      run: |
+        pip install --upgrade pip setuptools
         pip install --no-cache-dir Cython==3.0.11
+
+    - name: Install pyjnius
+      run: |
         pip install --no-cache-dir pyjnius==1.6.0
+
+    - name: Install remaining dependencies
+      run: |
         pip install -r requirements.txt
 
     - name: Start API Server
@@ -64,5 +76,5 @@ jobs:
         HBNB_MYSQL_DB: hbnb_dev_db
         HBNB_TYPE_STORAGE: db
       run: |
-        sleep 20  # サーバが完全に立ち上がるまでの待機時間
+        sleep 10  # サーバが完全に立ち上がるまでの待機時間
         python3 -m unittest discover -s tests
