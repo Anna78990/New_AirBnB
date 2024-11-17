@@ -30,22 +30,18 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Install Cython and set up PATH for JDK
+    - name: Install Cython
       run: |
-        sudo apt-get update
-        sudo apt-get install -y openjdk-11-jdk
-        export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-        export PATH=$JAVA_HOME/bin:$PATH
-        pip install Cython
-  
-    - name: Install Jnius separately
+        python -m pip install --upgrade pip
+        pip install Cython==3.0.11
+
+    - name: Install Jnius with Cython
       run: |
-        pip install --no-cache-dir jnius==1.1.0
-  
+        python -m pip install --no-cache-dir jnius==1.1.0
+
     - name: Install remaining dependencies
       run: |
         pip install -r requirements.txt
-  
 
     - name: Start API Server
       run: |
@@ -74,5 +70,5 @@ jobs:
         HBNB_MYSQL_DB: hbnb_dev_db
         HBNB_TYPE_STORAGE: db
       run: |
-        sleep 10  # サーバが完全に立ち上がるまでの待機時間
+        sleep 20  # サーバが完全に立ち上がるまでの待機時間
         python3 -m unittest discover -s tests
