@@ -30,18 +30,22 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Install Cython for Jnius
+    - name: Install Cython and set up PATH for JDK
       run: |
-        pip install --upgrade pip
-        pip install Cython==3.0.11
-
+        sudo apt-get update
+        sudo apt-get install -y openjdk-11-jdk
+        export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+        export PATH=$JAVA_HOME/bin:$PATH
+        pip install Cython
+  
     - name: Install Jnius separately
       run: |
         pip install --no-cache-dir jnius==1.1.0
-
+  
     - name: Install remaining dependencies
       run: |
         pip install -r requirements.txt
+  
 
     - name: Start API Server
       run: |
