@@ -1,6 +1,6 @@
 apispec==6.3.1
 atheris==2.3.0
-blinker==1.9.0
+blinker==1.8.2
 bpython==0.24
 cffi==1.15.1
 ConfigParser==7.1.0
