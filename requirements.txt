@@ -1,4 +1,4 @@
-apispec==6.7.1
+apispec==6.3.1
 atheris==2.3.0
 blinker==1.9.0
 bpython==0.24
